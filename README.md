@@ -1,2 +1,2 @@
 # clever
-php cli built non symfony and laravel components
+php cli built with symfony and laravel components

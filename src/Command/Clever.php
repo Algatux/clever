@@ -3,7 +3,6 @@
 namespace Clever\Command;
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Facades\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,9 +19,8 @@ class Clever extends Command
     /**
      * Clever constructor.
      * @param Container $container
-     * @param Config $config
      */
-    public function __construct(Container $container, Config $config)
+    public function __construct(Container $container)
     {
         parent::__construct();
     }

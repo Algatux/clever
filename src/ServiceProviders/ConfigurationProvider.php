@@ -1,7 +1,7 @@
 <?php
 
 namespace Clever\ServiceProviders;
-use Illuminate\Support\Facades\Config;
+use Clever\Config\ApplicationConfiguration;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -18,7 +18,7 @@ class ConfigurationProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('config', Config::class);
+        $this->app->singleton('config', ApplicationConfiguration::class);
     }
 
 }

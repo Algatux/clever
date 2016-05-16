@@ -24,7 +24,7 @@ class CommandsProvider extends ServiceProvider
 
         $this->app->bind('clever.app', function() {
             $app = new Application(CleverApplication::NAME,CleverApplication::VERSION);
-            $app->add(new Clever($this->app, $this->app['config']));
+            $app->add(new Clever($this->app));
 
             return $app;
         });

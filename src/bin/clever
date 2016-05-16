@@ -1,0 +1,15 @@
+<?php
+
+namespace Clever;
+
+if ( ! file_exists(__DIR__ . '/../../vendor/autoload.php'))
+    throw new \Exception("Autoload file not found.");
+
+require __DIR__ . '/../../vendor/autoload.php';
+
+$app = new CleverApplication();
+
+// Uncomment to enable database support with eloquent
+//$app->make('capsule')->bootEloquent();
+
+$app->make('clever.app')->run();
