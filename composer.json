@@ -1,0 +1,28 @@
+{
+    "name": "algatux/clever",
+    "description": "torrent search extended",
+    "require": {
+        "symfony/console": "^3.0",
+        "symfony/event-dispatcher": "^3.0",
+        "illuminate/container": "^5.2",
+        "illuminate/config": "^5.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clever\\": "src/",
+            "CleverTest\\": "test/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alessandro Galli",
+            "email": "a.galli85@gmail.com"
+        }
+    ],
+    "bin": ["src/bin/clever"],
+    "minimum-stability": "stable"
+}
