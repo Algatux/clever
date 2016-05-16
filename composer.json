@@ -24,5 +24,9 @@
         }
     ],
     "bin": ["src/bin/clever"],
+    "config": {
+        "preferred-install": "dist",
+        "bin-dir": "bin"
+    },
     "minimum-stability": "stable"
 }
