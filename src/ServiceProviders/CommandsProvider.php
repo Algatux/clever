@@ -4,6 +4,7 @@ namespace Clever\ServiceProviders;
 
 use Clever\CleverApplication;
 use Clever\Command\Clever;
+use Clever\Command\Scraper;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Console\Application;
 
@@ -25,6 +26,7 @@ class CommandsProvider extends ServiceProvider
         $this->app->bind('clever.app', function() {
             $app = new Application(CleverApplication::NAME,CleverApplication::VERSION);
             $app->add(new Clever($this->app));
+            $app->add(new Scraper($this->app));
 
             return $app;
         });
