@@ -2,6 +2,7 @@
 
 namespace Clever\ServiceProviders;
 
+use Clever\CleverApplication;
 use Clever\Command\Clever;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Console\Application;
@@ -20,12 +21,14 @@ class CommandsProvider extends ServiceProvider
      */
     public function register()
     {
+
         $this->app->bind('clever.app', function() {
-            $app = new Application('Clever','1.0');
+            $app = new Application(CleverApplication::NAME,CleverApplication::VERSION);
             $app->add(new Clever($this->app, $this->app['config']));
 
             return $app;
         });
+        
     }
 
 }
