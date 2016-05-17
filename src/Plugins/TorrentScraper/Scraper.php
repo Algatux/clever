@@ -2,10 +2,9 @@
 declare(strict_types=1);
 namespace Clever\Plugins\TorrentScraper;
 
+use Clever\Plugins\TorrentScraper\Config\Config;
 use Clever\Plugins\TorrentScraper\Contracts\ScraperDriver;
 use Illuminate\Support\Collection;
-use Goutte\Client as Goutte;
-use Symfony\Component\DomCrawler\Crawler;
 
 class Scraper
 {
@@ -28,7 +27,7 @@ class Scraper
     /**
      * @param ScraperDriver $adapter
      */
-    public function addAdapert(ScraperDriver $adapter)
+    public function addDriver(ScraperDriver $adapter)
     {
         $hash = spl_object_hash($adapter);
         if (! $this->adapters->contains($hash)) {
@@ -37,15 +36,19 @@ class Scraper
     }
 
     /**
-     * @param array $params
+     * @param Config $config
      * @return Collection
      */
-    public function scrape(array $params = null)
+    public function scrape(Config $config)
     {
         /** @var ScraperDriver $adapter */
         foreach ($this->adapters as $adapter) {
 
-            $this->resultSet->push($adapter->scrape($params));
+            if ($config->mustUseSpecificDriver() && $adapter->getName() !== $config->getDriver()) {
+                continue;
+            }
+
+            $this->resultSet->push($adapter->scrape($config));
 
         }
 

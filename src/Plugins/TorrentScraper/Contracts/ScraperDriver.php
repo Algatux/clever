@@ -2,6 +2,9 @@
 declare(strict_types=1);
 namespace Clever\Plugins\TorrentScraper\Contracts;
 
+use Clever\Plugins\TorrentScraper\Config\Config;
+use Illuminate\Support\Collection;
+
 /**
  * Interface ScraperDriver
  * @package Clever\Plugins\TorrentScraper\Contracts
@@ -20,10 +23,10 @@ interface ScraperDriver
     public function hasFastSearchQueryUrl(): bool;
 
     /**
-     * @param array $params
-     * @return array
+     * @param Config $config
+     * @return Collection
      */
-    public function scrape(array $params=[]): array;
+    public function scrape(Config $config): Collection;
     
     /**
      * @return string
@@ -40,6 +43,14 @@ interface ScraperDriver
      */
     public function getFormSelector(): string;
 
+    /**
+     * @return string
+     */
+    public function getRawResultsSelector(): string;
 
+    /**
+     * @return string
+     */
+    public function getResultTorrentNameSelector(): string;
 
 }

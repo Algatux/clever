@@ -57,4 +57,19 @@ class Kikasstorrents extends AbstractStandardDriver implements ScraperDriver
         return true;
     }
 
+    /**
+     * @return string
+     */
+    public function getRawResultsSelector(): string
+    {
+        return "//*/table[@class='data']/tr[contains(@id,'torrent_')]";
+    }
+
+    /**
+     * @return string
+     */
+    public function getResultTorrentNameSelector(): string
+    {
+        return "//*/div[@class='torrentname']/div/a[@class='cellMainLink']";
+    }
 }

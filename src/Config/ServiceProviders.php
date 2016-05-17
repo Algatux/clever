@@ -3,9 +3,9 @@ declare(strict_types=1);
 namespace Clever\Config;
 
 use Clever\Plugins\TorrentScraper\TorrentScraperServiceProvider;
-use Clever\ServiceProviders\ApplicationProvider;
-use Clever\ServiceProviders\ConsoleProvider;
-use Clever\ServiceProviders\ConfigurationProvider;
+use Clever\Providers\ApplicationProvider;
+use Clever\Providers\ConfigurationProvider;
+use Clever\Providers\ConsoleProvider;
 
 /**
  * Class ServiceProviders

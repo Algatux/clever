@@ -1,14 +1,14 @@
 <?php
 
-namespace Clever\ServiceProviders;
+namespace Clever\Providers;
+
 use Clever\Config\ApplicationConfiguration;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class ConfigurationProvider
  * @package Clever\ServiceProviders
  */
-class ConfigurationProvider extends ServiceProvider
+class ConfigurationProvider extends CleverServiceProvider
 {
 
     /**
@@ -21,4 +21,12 @@ class ConfigurationProvider extends ServiceProvider
         $this->app->singleton('config', ApplicationConfiguration::class);
     }
 
+    /**
+     * Register the console commands
+     *
+     * @return void
+     */
+    public function registerConsoleCommands()
+    {}
+    
 }

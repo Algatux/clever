@@ -1,16 +1,15 @@
 <?php
 declare(strict_types=1);
-namespace Clever\ServiceProviders;
+namespace Clever\Providers;
 
 use Clever\Config\ApplicationConfiguration;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Class ApplicationProvider
  * @package Clever\ServiceProviders
  */
-class ApplicationProvider extends ServiceProvider
+class ApplicationProvider extends CleverServiceProvider
 {
 
     /**
@@ -36,4 +35,13 @@ class ApplicationProvider extends ServiceProvider
             return $capsule;
         });
     }
+
+    /**
+     * Register the console commands
+     *
+     * @return void
+     */
+    public function registerConsoleCommands()
+    {}
+
 }

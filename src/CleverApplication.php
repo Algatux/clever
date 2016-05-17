@@ -3,6 +3,8 @@
 namespace Clever;
 
 use Clever\Config\ServiceProviders;
+use Clever\Exceptions\Services\UnexpectedClassFound;
+use Clever\Providers\CleverServiceProvider;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,9 +37,16 @@ class CleverApplication extends Container {
         $serviceProviders = ServiceProviders::getRegisteredServices();
 
         foreach ($serviceProviders as $provider) {
-            /** @var ServiceProvider $provider */
+
+            /** @var CleverServiceProvider $provider */
             $provider = new $provider($this);
+
+            if (! $provider instanceOf CleverServiceProvider) {
+                throw new UnexpectedClassFound(sprintf("Class %s it's not a CleverServiceProvider", get_class($provider)));
+            }
+            
             $provider->register();
+            $provider->registerConsoleCommands();
         }
     }
     

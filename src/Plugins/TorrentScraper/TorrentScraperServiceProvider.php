@@ -7,6 +7,7 @@ use Clever\Plugins\TorrentScraper\Command\TorrentScraper;
 use Clever\Plugins\TorrentScraper\Drivers\Kikasstorrents;
 use Clever\Plugins\TorrentScraper\Models\Torrent;
 use Clever\Plugins\TorrentScraper\Services\ResultBuilder;
+use Clever\Providers\CleverServiceProvider;
 use Goutte\Client;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,7 +18,7 @@ use Symfony\Component\Console\Application;
  * Class TorrentScraperServiceProvider
  * @package Clever\Plugins\TorrentScraper
  */
-class TorrentScraperServiceProvider extends ServiceProvider
+class TorrentScraperServiceProvider extends CleverServiceProvider
 {
 
     /**
@@ -31,16 +32,23 @@ class TorrentScraperServiceProvider extends ServiceProvider
 
         $this->app->bind('torrent.scraper', function(){
             $scraper = new Scraper();
-            $scraper->addAdapert(new Kikasstorrents($this->app->make('torrent.goutte')));
+            $scraper->addDriver(new Kikasstorrents($this->app->make('torrent.goutte')));
 
             return $scraper;
         });
 
         $this->app->bind('torrent.result_builder', ResultBuilder::class);
+    }
 
+    /**
+     * Register the console commands
+     *
+     * @return void
+     */
+    public function registerConsoleCommands()
+    {
         /** @var Application $clever */
         $clever = $this->app->make('clever.app');
         $clever->add(new TorrentScraper($this->app));
     }
-
 }

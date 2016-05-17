@@ -2,8 +2,10 @@
 declare(strict_types=1);
 namespace Clever\Plugins\TorrentScraper\Drivers;
 
+use Clever\Plugins\TorrentScraper\Config\Config;
 use Clever\Plugins\TorrentScraper\Contracts\ScraperDriver;
 use Goutte\Client as Goutte;
+use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -34,16 +36,26 @@ abstract class AbstractStandardDriver implements ScraperDriver
     }
 
     /**
-     * @param array $parameters
-     * @return array
+     * @param Config $config
+     * @return Collection
      */
-    public function scrape(array $parameters = []): array
+    public function scrape(Config $config): Collection
     {
         $homePage = $this->goutte->request('GET', $this->getBaseUrl());
 
-        $searchResult = $this->startSearch($homePage, $parameters['query']);
+        $searchResult = $this->startSearch($homePage, $config->getQuery());
 
-        die($searchResult->text());
+        $rawResults = $this->getRawResults($searchResult);
+
+        var_dump($rawResults->count());
+
+        $results = $rawResults->each(function(Crawler $node){
+            $nameCrawler = $node->filterXPath($this->getResultTorrentNameSelector());
+            echo($nameCrawler->text() . \PHP_EOL);
+            return $nameCrawler;
+        });
+
+        return new Collection($results);
     }
 
     /**
@@ -63,6 +75,17 @@ abstract class AbstractStandardDriver implements ScraperDriver
         $form['contentSearch'] = $query;
 
         return $this->goutte->submit($form);
+    }
+
+    /**
+     * @param Crawler $crawler
+     * @return Crawler
+     */
+    private function getRawResults(Crawler $crawler): Crawler
+    {
+        $selector = $this->getRawResultsSelector();
+
+        return $crawler->filterXPath($selector);
     }
 
 }
