@@ -5,14 +5,15 @@ namespace Clever\ServiceProviders;
 use Clever\CleverApplication;
 use Clever\Command\Clever;
 use Clever\Command\Scraper;
+use Clever\Plugins\TorrentScraper\Command\TorrentScraper;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Console\Application;
 
 /**
- * Class CommandsProvider
+ * Class ConsoleProvider
  * @package Clever\ServiceProviders
  */
-class CommandsProvider extends ServiceProvider
+class ConsoleProvider extends ServiceProvider
 {
 
     /**
@@ -23,12 +24,9 @@ class CommandsProvider extends ServiceProvider
     public function register()
     {
 
-        $this->app->bind('clever.app', function() {
-            $app = new Application(CleverApplication::NAME,CleverApplication::VERSION);
-            $app->add(new Clever($this->app));
-            $app->add(new Scraper($this->app));
-
-            return $app;
+        $this->app->singleton('clever.app', function() {
+            
+            return new Application(CleverApplication::NAME,CleverApplication::VERSION);
         });
         
     }

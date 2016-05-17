@@ -4,7 +4,7 @@ namespace Clever\Config;
 
 use Clever\Plugins\TorrentScraper\TorrentScraperServiceProvider;
 use Clever\ServiceProviders\ApplicationProvider;
-use Clever\ServiceProviders\CommandsProvider;
+use Clever\ServiceProviders\ConsoleProvider;
 use Clever\ServiceProviders\ConfigurationProvider;
 
 /**
@@ -18,10 +18,9 @@ class ServiceProviders
     private static $services = [
         ConfigurationProvider::class,
         ApplicationProvider::class,
+        ConsoleProvider::class,
 
         TorrentScraperServiceProvider::class,
-
-        CommandsProvider::class,
     ];
 
     /**

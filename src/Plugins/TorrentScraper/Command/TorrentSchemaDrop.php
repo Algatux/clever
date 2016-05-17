@@ -1,19 +1,17 @@
 <?php
-
-namespace Clever\Command;
+declare(strict_types = 1);
+namespace Clever\Plugins\TorrentScraper\Command;
 
 use Illuminate\Contracts\Container\Container;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class Scraper
- * @package Clever\Command
+ * Class TorrentSchemaDrop
+ * @package Clever\Plugins\TorrentScraper\Command
  */
-class Scraper extends Command
+class TorrentSchemaDrop extends Command
 {
     /**
      * @var Container
@@ -36,8 +34,8 @@ class Scraper extends Command
     protected function configure()
     {
         $this
-            ->setName('scrape')
-            ->setDescription('Greet someone')
+            ->setName('torrent:schema:drop')
+            ->setDescription('creates database schema')
         ;
     }
 
@@ -48,11 +46,7 @@ class Scraper extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Scraping');
-
-        $this->container->make('torrent.scraper')->scrape(['query'=>'supergirl 720p']);
-
-        $output->writeln('End');
+        $output->writeln('Dropping schemas');
     }
 
 }
