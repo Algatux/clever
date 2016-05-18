@@ -3,7 +3,9 @@
 namespace Clever\Providers;
 
 use Clever\CleverApplication;
+use Clever\Commands\SchemaMigrationCreate;
 use Symfony\Component\Console\Application as Console;
+use Symfony\Component\Console\Application;
 
 /**
  * Class ConsoleProvider
@@ -33,5 +35,9 @@ class ConsoleProvider extends CleverServiceProvider
      * @return void
      */
     public function registerConsoleCommands()
-    {}
+    {
+        /** @var Application $clever */
+        $clever = $this->app->make('clever.app');
+        $clever->add(new SchemaMigrationCreate($this->app));
+    }
 }

@@ -4,6 +4,7 @@ namespace Clever\Providers;
 
 use Clever\Config\ApplicationConfiguration;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Migrations\MigrationCreator;
 
 /**
  * Class ApplicationProvider
@@ -34,6 +35,9 @@ class ApplicationProvider extends CleverServiceProvider
 
             return $capsule;
         });
+        $this->app->alias('capsule', 'db');
+
+        $this->app->bind('migration.creator', MigrationCreator::class);
     }
 
     /**

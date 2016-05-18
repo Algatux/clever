@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace Clever\Plugins\TorrentScraper\Command;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Database\Migrations\MigrationCreator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,10 +14,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class TorrentSchemaCreate extends Command
 {
-    /**
-     * @var Container
-     */
+    /** @var Container */
     private $container;
+
+    /** @var  MigrationCreator */
+    private $migrationCreator;
 
     /**
      * Clever constructor.
@@ -37,6 +39,8 @@ class TorrentSchemaCreate extends Command
             ->setName('torrent:schema:create')
             ->setDescription('creates database schema')
         ;
+
+        $this->migrationCreator = $this->container->make('migration.creator');
     }
 
     /**
