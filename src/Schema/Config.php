@@ -17,6 +17,9 @@ class Config
     /** @var string|null */
     private $targetPlugin;
 
+    /** @var bool */
+    private $isNewTable;
+
     /**
      * Config constructor.
      * @param InputInterface $inputInterface
@@ -25,6 +28,15 @@ class Config
     {
         $this->tableName = $inputInterface->getArgument('tableName');
         $this->targetPlugin = $inputInterface->getOption('targetPlugin');
+        $this->isNewTable = $inputInterface->getOption('create');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isNewTable()
+    {
+        return $this->isNewTable;
     }
 
     /**
@@ -56,10 +68,12 @@ class Config
      */
     public function getMigrationName(): string
     {
-        $name = $this->getTableName();
-        $name .= $this->hasTargetPlugin() ? "_" . strtolower($this->getTargetPlugin()) : '';
+        $name = [];
+        $name[] = $this->isNewTable() ? "create" : "update";
+        $name[] = $this->getTableName();
+        $name[] = $this->hasTargetPlugin() ? sprintf("plugin_%s",strtolower($this->getTargetPlugin())) : '';
 
-        return $name;
+        return implode("_", $name);
     }
     
 }

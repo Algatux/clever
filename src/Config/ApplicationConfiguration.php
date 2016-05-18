@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace Clever\Config;
+
 use Illuminate\Support\Fluent;
 
 /**
@@ -10,7 +11,7 @@ use Illuminate\Support\Fluent;
 class ApplicationConfiguration
 {
 
-    /** @var array */
+    /** @var Fluent */
     private $config;
 
     /**
@@ -18,16 +19,13 @@ class ApplicationConfiguration
      */
     public function __construct()
     {
-        include __DIR__ . "/../config.php";
-
-        /** @var array $configuration */
-        $this->config = new Fluent($configuration);
+        $this->config = new Fluent(include __DIR__ . "/../config.php");
     }
 
     /**
      * @return Fluent
      */
-    public function getConfig()
+    public function getConfig(): Fluent
     {
         return $this->config;
     }

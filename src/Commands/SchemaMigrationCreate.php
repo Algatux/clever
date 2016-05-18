@@ -63,6 +63,12 @@ class SchemaMigrationCreate extends Command
                 'p',
                 InputOption::VALUE_REQUIRED,
                 'If the migration targets a plugin, specify the plugin name'
+            )
+            ->addOption(
+                'create',
+                'c',
+                InputOption::VALUE_NONE,
+                'Is a new table ?'
             );
     }
 
@@ -78,13 +84,14 @@ class SchemaMigrationCreate extends Command
         $name = $config->getMigrationName();
         $path = $this->composeMigrationTargetDir($config);
 
-        if (! $this->filesystem->exists($path)) {
-            $this->filesystem->makeDirectory($path);
-        }
+        // Not sure about creating the directory
+//        if (! $this->filesystem->exists($path)) {
+//            $this->filesystem->makeDirectory($path);
+//        }
 
         $output->writeln(sprintf('<info>Creating migration %s</info>', $name));
 
-        $this->migrationCreator->create($name, $path, $config->getTableName());
+        $this->migrationCreator->create($name, $path, $config->getTableName(), $config->isNewTable());
     }
 
     protected function composeMigrationTargetDir(Config $config)
