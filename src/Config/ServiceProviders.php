@@ -6,6 +6,7 @@ use Clever\Plugins\TorrentScraper\TorrentScraperServiceProvider;
 use Clever\Providers\ApplicationProvider;
 use Clever\Providers\ConfigurationProvider;
 use Clever\Providers\ConsoleProvider;
+use Clever\Providers\MigrationsProvider;
 
 /**
  * Class ServiceProviders
@@ -16,10 +17,14 @@ class ServiceProviders
 
     /** @var array  */
     private static $services = [
+
+        // Clever Service Providers
         ConfigurationProvider::class,
         ApplicationProvider::class,
+        MigrationsProvider::class,
         ConsoleProvider::class,
 
+        // Project service providers
         TorrentScraperServiceProvider::class,
     ];
 

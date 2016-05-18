@@ -1,26 +1,17 @@
 <?php
-
+declare(strict_types = 1);
 namespace Clever\Providers;
 
-use Clever\CleverApplication;
 use Clever\Commands\SchemaMigrationCreate;
-use Symfony\Component\Console\Application as Console;
+use Illuminate\Database\Migrations\MigrationCreator;
 use Symfony\Component\Console\Application;
 
 /**
- * Class ConsoleProvider
- * @package Clever\ServiceProviders
+ * Class MigrationsProvider
+ * @package Clever\Providers
  */
-class ConsoleProvider extends CleverServiceProvider
+class MigrationsProvider extends CleverServiceProvider
 {
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {}
 
     /**
      * Register the console commands
@@ -32,5 +23,15 @@ class ConsoleProvider extends CleverServiceProvider
         /** @var Application $clever */
         $clever = $this->app->make('clever.app');
         $clever->add(new SchemaMigrationCreate($this->app));
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->bind('migration.creator', MigrationCreator::class);
     }
 }

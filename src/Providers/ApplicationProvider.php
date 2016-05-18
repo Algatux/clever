@@ -2,9 +2,12 @@
 declare(strict_types=1);
 namespace Clever\Providers;
 
+use Clever\CleverApplication;
 use Clever\Config\ApplicationConfiguration;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Database\Migrations\MigrationCreator;
+use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Console\Application as Console;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Class ApplicationProvider
@@ -20,24 +23,26 @@ class ApplicationProvider extends CleverServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('clever.app', function() {
+            return new Console(CleverApplication::NAME,CleverApplication::VERSION);
+        });
+
+        // Filesystem services
+        $this->app->bind('filesystem', Filesystem::class);
+        $this->app->bind('finder', Finder::class);
+
+        // Database Services
         $this->app->singleton('capsule', function() {
             /** @var ApplicationConfiguration $databaseConfig */
             $databaseConfig = $this->app['config'];
             $capsule = new Capsule();
 
-            $capsule->addConnection(
-                $databaseConfig
-                    ->getConfig()
-                    ->get('database')
-            );
-
+            $capsule->addConnection($databaseConfig->getConfig()->get('database'));
             $capsule->setAsGlobal();
 
             return $capsule;
         });
         $this->app->alias('capsule', 'db');
-
-        $this->app->bind('migration.creator', MigrationCreator::class);
     }
 
     /**

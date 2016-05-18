@@ -3,6 +3,7 @@
     "description": "php cli command build with symfony and laravel components",
     "require": {
         "symfony/console": "^3.0",
+        "symfony/finder": "^3.0",
         "fabpot/goutte": "^3.1",
         "illuminate/container": "^5.2",
         "illuminate/support": "^5.2",

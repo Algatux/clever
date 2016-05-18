@@ -2,10 +2,13 @@
 declare(strict_types = 1);
 namespace Clever\Commands;
 
+use Clever\Config\ApplicationConfiguration;
 use Clever\Schema\Config;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Migrations\MigrationCreator;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -23,6 +26,12 @@ class SchemaMigrationCreate extends Command
     /** @var MigrationCreator */
     private $migrationCreator;
 
+    /** @var Filesystem */
+    private $filesystem;
+
+    /** @var ApplicationConfiguration */
+    private $cleverConfig;
+
     /**
      * Clever constructor.
      * @param Container $container
@@ -32,6 +41,8 @@ class SchemaMigrationCreate extends Command
         parent::__construct();
         $this->container = $container;
         $this->migrationCreator = $container->make('migration.creator');
+        $this->filesystem = $container->make('filesystem');
+        $this->cleverConfig = $container->make('config');
     }
 
     /**
@@ -52,8 +63,7 @@ class SchemaMigrationCreate extends Command
                 'p',
                 InputOption::VALUE_REQUIRED,
                 'If the migration targets a plugin, specify the plugin name'
-            )
-        ;
+            );
     }
 
     /**
@@ -66,13 +76,35 @@ class SchemaMigrationCreate extends Command
         $config = new Config($input);
 
         $name = $config->getMigrationName();
-        $path = __DIR__;
-        
+        $path = $this->composeMigrationTargetDir($config);
+
+        if (! $this->filesystem->exists($path)) {
+            $this->filesystem->makeDirectory($path);
+        }
+
         $output->writeln(sprintf('<info>Creating migration %s</info>', $name));
-        
+
         $this->migrationCreator->create($name, $path, $config->getTableName());
-        
     }
 
+    protected function composeMigrationTargetDir(Config $config)
+    {
+        $appConfig = $this->cleverConfig->getConfig();
+
+        if (
+            $config->hasTargetPlugin() &&
+            !$this->filesystem->exists($appConfig->get('plugins')['dir'] . "/" . $config->getTargetPlugin())
+        ) {
+            throw new InvalidArgumentException('Provided Plugin not found');
+        }
+
+        if ($config->hasTargetPlugin()) {
+            return $appConfig->get('plugins')['dir'] .
+            "/" . $config->getTargetPlugin() .
+            $appConfig->get('database')['migrations-dir'];
+        }
+
+        return $appConfig->get('database')['migrations-dir'];
+    }
 
 }
