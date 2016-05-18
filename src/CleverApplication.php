@@ -49,5 +49,23 @@ class CleverApplication extends Container {
             $provider->registerConsoleCommands();
         }
     }
+
+    /**
+     * @return CleverApplication
+     */
+    public function withEloquent(): CleverApplication
+    {
+        $this->make('capsule')->bootEloquent();
+
+        return $this;
+    }
+
+    /**
+     * @return void
+     */
+    public function run()
+    {
+        $this->make('clever.app')->run();
+    }
     
 }
