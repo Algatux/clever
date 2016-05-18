@@ -71,7 +71,10 @@ class Config
         $name = [];
         $name[] = $this->isNewTable() ? "create" : "update";
         $name[] = $this->getTableName();
-        $name[] = $this->hasTargetPlugin() ? sprintf("plugin_%s",strtolower($this->getTargetPlugin())) : '';
+        
+        if ($this->hasTargetPlugin()) {
+            $name[] = $this->hasTargetPlugin() ? sprintf("plugin_%s",strtolower($this->getTargetPlugin())) : '';
+        }
 
         return implode("_", $name);
     }

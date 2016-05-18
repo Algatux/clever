@@ -3,6 +3,8 @@ declare(strict_types = 1);
 namespace Clever\Providers;
 
 use Clever\Commands\SchemaMigrationCreate;
+use Clever\Services\MigrationFinder;
+use Clever\Services\MigrationRunner;
 use Illuminate\Database\Migrations\MigrationCreator;
 use Symfony\Component\Console\Application;
 
@@ -33,5 +35,16 @@ class MigrationsProvider extends CleverServiceProvider
     public function register()
     {
         $this->app->bind('migration.creator', MigrationCreator::class);
+        $this->app->bind('migration.finder', function(){
+            return new MigrationFinder(
+                $this->app->make('finder'),
+                $this->app->make('config')
+            );
+        });
+        $this->app->bind('migration.runner', function(){
+            return new MigrationRunner(
+                $this->app->make('filesystem')
+            );
+        });
     }
 }

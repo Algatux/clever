@@ -111,7 +111,7 @@ class SchemaMigrationCreate extends Command
             $appConfig->get('database')['migrations-dir'];
         }
 
-        return $appConfig->get('database')['migrations-dir'];
+        return __DIR__ . "/.." . $appConfig->get('database')['migrations-dir'];
     }
 
 }

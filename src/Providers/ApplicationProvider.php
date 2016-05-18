@@ -6,6 +6,7 @@ use Clever\CleverApplication;
 use Clever\Config\ApplicationConfiguration;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Console\Application as Console;
 use Symfony\Component\Finder\Finder;
 
@@ -23,6 +24,7 @@ class ApplicationProvider extends CleverServiceProvider
      */
     public function register()
     {
+
         $this->app->singleton('clever.app', function() {
             return new Console(CleverApplication::NAME,CleverApplication::VERSION);
         });
@@ -43,6 +45,8 @@ class ApplicationProvider extends CleverServiceProvider
             return $capsule;
         });
         $this->app->alias('capsule', 'db');
+
+        Facade::setFacadeApplication($this->app);
     }
 
     /**
