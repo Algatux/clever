@@ -20,8 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SchemaMigrationCreate extends Command
 {
-    /** @var Container */
-    private $container;
 
     /** @var MigrationCreator */
     private $migrationCreator;
@@ -39,10 +37,9 @@ class SchemaMigrationCreate extends Command
     public function __construct(Container $container)
     {
         parent::__construct();
-        $this->container = $container;
-        $this->migrationCreator = $container->make('migration.creator');
-        $this->filesystem = $container->make('filesystem');
-        $this->cleverConfig = $container->make('config');
+        $this->migrationCreator = $container->make(MigrationCreator::class);
+        $this->filesystem = $container->make(Filesystem::class);
+        $this->cleverConfig = $container->make(ApplicationConfiguration::class);
     }
 
     /**
@@ -51,7 +48,7 @@ class SchemaMigrationCreate extends Command
     protected function configure()
     {
         $this
-            ->setName('schema:migration:create')
+            ->setName('migration:create')
             ->setDescription('creates a new database migration')
             ->addArgument(
                 'tableName',

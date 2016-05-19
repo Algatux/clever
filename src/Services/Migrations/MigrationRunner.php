@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
-namespace Clever\Services;
+namespace Clever\Services\Migrations;
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Class MigrationRunner
@@ -15,13 +16,18 @@ class MigrationRunner
     /** @var Filesystem */
     private $filesystem;
 
+    /** @var Capsule */
+    private $capsule;
+
     /**
      * MigrationRunner constructor.
      * @param Filesystem $filesystem
+     * @param Capsule $capsule
      */
-    public function __construct(Filesystem $filesystem)
+    public function __construct(Filesystem $filesystem, Capsule $capsule)
     {
         $this->filesystem = $filesystem;
+        $this->capsule = $capsule;
     }
 
     /**
@@ -40,6 +46,17 @@ class MigrationRunner
             $migrationInstance->down();
         }
         $migrationInstance->up();
+        $this->markMigrationDone($migration);
+    }
+
+    /**
+     * @param \SplFileInfo $migration
+     */
+    private function markMigrationDone(\SplFileInfo $migration)
+    {
+        $this->capsule->table('migrations')->insert([
+            ['migration' => str_replace('.php', '' , $migration->getBasename())]
+        ]);
     }
 
 }

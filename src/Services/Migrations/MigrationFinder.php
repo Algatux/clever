@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Clever\Services;
+namespace Clever\Services\Migrations;
 
 use Clever\Config\ApplicationConfiguration;
 use Illuminate\Support\Collection;
@@ -55,6 +55,7 @@ class MigrationFinder
             ->ignoreDotFiles(true)
             ->ignoreVCS(true)
             ->in($migrationsDirs)
+            ->depth('==0')
             ->sortByName();
     }
 
@@ -81,7 +82,7 @@ class MigrationFinder
         $migrationDirName = $appConfig->get('database')['migrations-dir'];
 
         $migrationDirs = [
-            __DIR__ . "/.." . $migrationDirName,
+            CLEVER_ROOT_DIR . $migrationDirName,
             $appConfig->get('plugins')['dir'] . "/*" . $migrationDirName
         ];
 

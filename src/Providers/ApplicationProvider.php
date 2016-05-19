@@ -5,10 +5,8 @@ namespace Clever\Providers;
 use Clever\CleverApplication;
 use Clever\Config\ApplicationConfiguration;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Console\Application as Console;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Class ApplicationProvider
@@ -30,13 +28,11 @@ class ApplicationProvider extends CleverServiceProvider
         });
 
         // Filesystem services
-        $this->app->bind('filesystem', Filesystem::class);
-        $this->app->bind('finder', Finder::class);
 
         // Database Services
         $this->app->singleton('capsule', function() {
             /** @var ApplicationConfiguration $databaseConfig */
-            $databaseConfig = $this->app['config'];
+            $databaseConfig = $this->app->make(ApplicationConfiguration::class);
             $capsule = new Capsule();
 
             $capsule->addConnection($databaseConfig->getConfig()->get('database'));

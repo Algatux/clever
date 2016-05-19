@@ -18,7 +18,7 @@ class ConfigurationProvider extends CleverServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('config', ApplicationConfiguration::class);
+        $this->app->singleton(ApplicationConfiguration::class, ApplicationConfiguration::class);
     }
 
     /**

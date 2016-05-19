@@ -1,22 +1,22 @@
 <?php
 declare(strict_types = 1);
-namespace Clever\Plugins\TorrentScraper\Command;
+namespace Clever\Commands;
 
+use Clever\Services\Migrations\MigrationInstaller;
 use Illuminate\Contracts\Container\Container;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class TorrentSchemaDrop
- * @package Clever\Plugins\TorrentScraper\Command
+ * Class SchemaMigrationRun
+ * @package Clever\Commands
  */
-class TorrentSchemaDrop extends Command
+class SchemaMigrationInstall extends Command
 {
-    /**
-     * @var Container
-     */
-    private $container;
+
+    /** @var MigrationInstaller */
+    private $installer;
 
     /**
      * Clever constructor.
@@ -25,7 +25,7 @@ class TorrentSchemaDrop extends Command
     public function __construct(Container $container)
     {
         parent::__construct();
-        $this->container = $container;
+        $this->installer = $container->make(MigrationInstaller::class);
     }
 
     /**
@@ -34,8 +34,8 @@ class TorrentSchemaDrop extends Command
     protected function configure()
     {
         $this
-            ->setName('torrent:schema:drop')
-            ->setDescription('creates database schema')
+            ->setName('migration:install')
+            ->setDescription('installs migrations table')
         ;
     }
 
@@ -46,7 +46,14 @@ class TorrentSchemaDrop extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Dropping schemas');
+
+        $output->writeln('<info>Creating migration table</info>');
+        
+        $this->installer->install();
+
+        $output->writeln('<info>Done!</info>');
     }
+
+    
 
 }

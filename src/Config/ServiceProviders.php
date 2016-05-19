@@ -21,7 +21,6 @@ class ServiceProviders
         // Clever Service Providers
         ConfigurationProvider::class,
         ApplicationProvider::class,
-        MigrationsProvider::class,
         ConsoleProvider::class,
 
         // Project service providers

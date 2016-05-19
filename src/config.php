@@ -14,7 +14,7 @@ return [
     
     "plugins" => [
         
-        "dir" => __DIR__ . "/Plugins",
+        "dir" => CLEVER_ROOT_DIR . "/Plugins",
         
     ],
 
