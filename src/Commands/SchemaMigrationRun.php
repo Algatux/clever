@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Clever\Commands;
 
+use Clever\Models\Repository\MigrationsRepository;
 use Clever\Services\Migrations\MigrationFinder;
 use Clever\Services\Migrations\MigrationRunner;
 use Illuminate\Contracts\Container\Container;
@@ -9,7 +10,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Class SchemaMigrationRun
@@ -24,6 +24,9 @@ class SchemaMigrationRun extends Command
     /** @var MigrationRunner */
     private $runner;
 
+    /** @var \Clever\Models\Repository\MigrationsRepository */
+    private $migrations;
+
     /**
      * Clever constructor.
      * @param Container $container
@@ -33,6 +36,7 @@ class SchemaMigrationRun extends Command
         parent::__construct();
         $this->runner = $container->make(MigrationRunner::class);
         $this->finder = $container->make(MigrationFinder::class);
+        $this->migrations = $container->make(MigrationsRepository::class);
     }
 
     /**
@@ -69,13 +73,14 @@ class SchemaMigrationRun extends Command
 
 
         if ($force) {
-            Capsule::table('migrations')->truncate();
+            $this->migrations->clearMigrations();
         }
 
         foreach ($migrations as $migration) {
-            $output->writeln(sprintf('<info>Running migration: %s</info>', $migration->getFilename()));
-
-            $this->runner->runMigrations($migration, $force);
+            if (! $this->migrations->hasMigrationFromSplFileInfo($migration)) {
+                $output->writeln(sprintf('<info>Running migration: %s</info>', $migration->getFilename()));
+                $this->runner->runMigration($migration, $force);
+            }
         }
 
         $output->writeln('<info>Done!</info>');

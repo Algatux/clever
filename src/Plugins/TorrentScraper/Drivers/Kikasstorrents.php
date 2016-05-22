@@ -14,7 +14,7 @@ class Kikasstorrents extends AbstractStandardDriver implements ScraperDriver
     const NAME = 'kikass';
 
     const PROTOCOL = 'http://';
-    const BASE_URL = 'kickasstorrentsim.com';
+    const BASE_URL = 'kickasstorrentsam.com/';
     const SEARCH_QUERY_URL = '/usearch/%s';
 
     /**

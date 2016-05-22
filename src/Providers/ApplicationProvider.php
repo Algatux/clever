@@ -40,6 +40,7 @@ class ApplicationProvider extends CleverServiceProvider
 
             return $capsule;
         });
+        $this->app->alias('capsule', Capsule::class);
         $this->app->alias('capsule', 'db');
 
         Facade::setFacadeApplication($this->app);

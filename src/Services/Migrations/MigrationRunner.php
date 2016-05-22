@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace Clever\Services\Migrations;
 
+use Clever\Models\Repository\MigrationsRepository;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Class MigrationRunner
@@ -15,26 +15,29 @@ class MigrationRunner
 
     /** @var Filesystem */
     private $filesystem;
-
-    /** @var Capsule */
-    private $capsule;
+    
+    /** @var MigrationsRepository */
+    private $migrationsRepository;
 
     /**
      * MigrationRunner constructor.
      * @param Filesystem $filesystem
-     * @param Capsule $capsule
+     * @param MigrationsRepository $migrationsRepository
      */
-    public function __construct(Filesystem $filesystem, Capsule $capsule)
+    public function __construct(
+        Filesystem $filesystem,
+        MigrationsRepository $migrationsRepository
+    )
     {
         $this->filesystem = $filesystem;
-        $this->capsule = $capsule;
+        $this->migrationsRepository = $migrationsRepository;
     }
 
     /**
      * @param \SplFileInfo $migration
      * @param bool $force
      */
-    public function runMigrations(\SplFileInfo $migration, bool $force = false)
+    public function runMigration(\SplFileInfo $migration, bool $force = false)
     {
         $this->filesystem->requireOnce($migration->getPathname());
         $classes = get_declared_classes();
@@ -54,9 +57,8 @@ class MigrationRunner
      */
     private function markMigrationDone(\SplFileInfo $migration)
     {
-        $this->capsule->table('migrations')->insert([
-            ['migration' => str_replace('.php', '' , $migration->getBasename())]
-        ]);
+        $this->migrationsRepository
+            ->insertMigrationFromSplFileInfo($migration);
     }
 
 }
