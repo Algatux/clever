@@ -3,7 +3,9 @@ declare(strict_types = 1);
 namespace Clever\Plugins\TorrentScraper\Command;
 
 use Clever\Plugins\TorrentScraper\Config\Config;
+use Clever\Plugins\TorrentScraper\Models\Torrent;
 use Clever\Plugins\TorrentScraper\Scraper;
+use Clever\Plugins\TorrentScraper\Services\TorrentPersister;
 use Illuminate\Contracts\Container\Container;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -63,17 +65,25 @@ class TorrentScraper extends Command
     {
 
         $config = new Config($input);
-
-        if (null === $config->getQuery()) {
-            $output->writeln('<error>Please specify a search query string</error>');
-            return 1;
-        }
+        $newTorrents = 0;
 
         $output->writeln(sprintf('<info>Start Scraping for: %s</info>', $config->getQuery()));
 
         /** @var Scraper $scraper */
-        $scraper = $this->container->make('torrent.scraper');
-        $scraper->scrape($config);
+        $scraper = $this->container->make(Scraper::class);
+        $results = $scraper->scrape($config);
+
+        $output->writeln(sprintf('<info>Found results: %d</info>', $results->count()));
+
+        /** @var TorrentPersister $persister */
+        $persister = $this->container->make(TorrentPersister::class);
+
+        /** @var Torrent $result */
+        foreach ($results as $result) {
+            $newTorrents += $persister->insertModel($result) ? 1: 0;
+        }
+
+        $output->writeln(sprintf('<info>Imported %d new results!</info>', $newTorrents));
 
         $output->writeln('End');
 

@@ -72,4 +72,12 @@ class Kikasstorrents extends AbstractStandardDriver implements ScraperDriver
     {
         return "//*/div[@class='torrentname']/div/a[@class='cellMainLink']";
     }
+
+    /**
+     * @return string
+     */
+    public function getResultTorrentMagnetSelector(): string
+    {
+        return "//*/a[contains(@href,'magnet:')]";
+    }
 }

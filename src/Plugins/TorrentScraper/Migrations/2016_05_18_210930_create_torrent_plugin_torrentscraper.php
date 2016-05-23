@@ -21,8 +21,11 @@ class CreateTorrentPluginTorrentscraper extends Migration
             $table->increments('id');
 
             $table->string('name');
+            $table->string('hash', 40)->unique();
+            $table->text('magnetLink')->unique();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

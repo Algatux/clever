@@ -4,8 +4,14 @@ namespace Clever\Plugins\TorrentScraper;
 
 use Clever\Plugins\TorrentScraper\Config\Config;
 use Clever\Plugins\TorrentScraper\Contracts\ScraperDriver;
+use Clever\Plugins\TorrentScraper\Services\TorrentMapper;
+use Clever\Plugins\TorrentScraper\ValueObject\ScraperResult;
 use Illuminate\Support\Collection;
 
+/**
+ * Class Scraper
+ * @package Clever\Plugins\TorrentScraper
+ */
 class Scraper
 {
 
@@ -14,14 +20,20 @@ class Scraper
 
     /** @var Collection */
     private $resultSet;
+    /**
+     * @var TorrentMapper
+     */
+    private $mapper;
 
     /**
      * Scraper constructor.
+     * @param TorrentMapper $mapper
      */
-    public function __construct()
+    public function __construct(TorrentMapper $mapper)
     {
         $this->adapters = new Collection;
         $this->resultSet = new Collection;
+        $this->mapper = $mapper;
     }
 
     /**
@@ -48,13 +60,22 @@ class Scraper
                 continue;
             }
 
-            $this->resultSet->push($adapter->scrape($config));
+            $this->addResults($adapter->scrape($config));
 
         }
 
         return $this->resultSet;
     }
 
-
+    /**
+     * @param ScraperResult[] $results
+     */
+    private function addResults($results)
+    {
+        foreach ($results as $result) {
+            $torrent = $this->mapper->fromScraperResultToTorrentModel($result);
+            $this->resultSet->push($torrent);
+        }
+    }
     
 }

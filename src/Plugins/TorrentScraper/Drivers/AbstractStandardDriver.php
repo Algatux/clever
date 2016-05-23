@@ -4,6 +4,8 @@ namespace Clever\Plugins\TorrentScraper\Drivers;
 
 use Clever\Plugins\TorrentScraper\Config\Config;
 use Clever\Plugins\TorrentScraper\Contracts\ScraperDriver;
+use Clever\Plugins\TorrentScraper\Services\ResultBuilder;
+use Clever\Plugins\TorrentScraper\ValueObject\ScraperResult;
 use Goutte\Client as Goutte;
 use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;
@@ -21,9 +23,7 @@ abstract class AbstractStandardDriver implements ScraperDriver
     const BASE_URL = '';
     const SEARCH_QUERY_URL = '%s';
 
-    /**
-     * @var Goutte
-     */
+    /** @var Goutte */
     private $goutte;
 
     /**
@@ -46,13 +46,12 @@ abstract class AbstractStandardDriver implements ScraperDriver
         $searchResult = $this->startSearch($homePage, $config->getQuery());
 
         $rawResults = $this->getRawResults($searchResult);
-
-        var_dump($rawResults->count());
-
+        
         $results = $rawResults->each(function(Crawler $node){
             $nameCrawler = $node->filterXPath($this->getResultTorrentNameSelector());
-            echo($nameCrawler->text() . \PHP_EOL);
-            return $nameCrawler;
+            $magnet = $node->filterXPath($this->getResultTorrentMagnetSelector());
+            
+            return new ScraperResult($nameCrawler->text(), $magnet->attr('href'));
         });
 
         return new Collection($results);
