@@ -3,9 +3,10 @@ declare(strict_types = 1);
 namespace Clever\Plugins\TorrentScraper\Command;
 
 use Clever\Plugins\TorrentScraper\Config\Config;
-use Clever\Plugins\TorrentScraper\Models\Torrent;
+use Clever\Plugins\TorrentScraper\Entity\Torrent;
 use Clever\Plugins\TorrentScraper\Scraper;
 use Clever\Plugins\TorrentScraper\Services\TorrentPersister;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Illuminate\Contracts\Container\Container;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -66,6 +67,7 @@ class TorrentScraper extends Command
 
         $config = new Config($input);
         $newTorrents = 0;
+        $skippedTorrents = 0;
 
         $output->writeln(sprintf('<info>Start Scraping for: %s</info>', $config->getQuery()));
 
@@ -80,10 +82,17 @@ class TorrentScraper extends Command
 
         /** @var Torrent $result */
         foreach ($results as $result) {
-            $newTorrents += $persister->insertModel($result) ? 1: 0;
+            try{
+                $insertResult = $persister->persistNewtorrent($result);
+                $newTorrents += $insertResult ? 1: 0;
+                $skippedTorrents += !$insertResult ? 1: 0;
+            }catch (\Exception $e){
+                $output->writeln($e->getMessage());
+            }
         }
 
         $output->writeln(sprintf('<info>Imported %d new results!</info>', $newTorrents));
+        $output->writeln(sprintf('<info>Skipped %d results!</info>', $skippedTorrents));
 
         $output->writeln('End');
 

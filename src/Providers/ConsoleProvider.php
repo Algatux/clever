@@ -33,8 +33,5 @@ class ConsoleProvider extends CleverServiceProvider
     {
         /** @var Application $clever */
         $clever = $this->app->make('clever.app');
-        $clever->add(new SchemaMigrationCreate($this->app));
-        $clever->add(new SchemaMigrationRun($this->app));
-        $clever->add(new SchemaMigrationInstall($this->app));
     }
 }

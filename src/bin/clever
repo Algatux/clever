@@ -8,9 +8,5 @@ if ( ! file_exists(__DIR__ . '/../../vendor/autoload.php'))
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-define('CLEVER_ROOT_DIR', __DIR__ . "/..");
-
 (new CleverApplication())
-    // Comment this line to disable database support
-    ->withEloquent()
     ->run();

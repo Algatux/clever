@@ -4,6 +4,8 @@ namespace Clever\Providers;
 
 use Clever\CleverApplication;
 use Clever\Config\ApplicationConfiguration;
+use Clever\Services\Doctrine\EntityManagerFactory;
+use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Console\Application as Console;
@@ -30,20 +32,19 @@ class ApplicationProvider extends CleverServiceProvider
         // Filesystem services
 
         // Database Services
-        $this->app->singleton('capsule', function() {
+        $this->app->bind(EntityManagerFactory::class, function(){
             /** @var ApplicationConfiguration $databaseConfig */
             $databaseConfig = $this->app->make(ApplicationConfiguration::class);
-            $capsule = new Capsule();
 
-            $capsule->addConnection($databaseConfig->getConfig()->get('database'));
-            $capsule->setAsGlobal();
-
-            return $capsule;
+            return new EntityManagerFactory($databaseConfig);
         });
-        $this->app->alias('capsule', Capsule::class);
-        $this->app->alias('capsule', 'db');
 
-        Facade::setFacadeApplication($this->app);
+        $this->app->bind(EntityManagerInterface::class, function() {
+            /** @var EntityManagerFactory $factory */
+            $factory = $this->app->make(EntityManagerFactory::class);
+
+            return $factory->createEntityManager();
+        });
     }
 
     /**

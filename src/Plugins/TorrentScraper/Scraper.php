@@ -68,7 +68,7 @@ class Scraper
     }
 
     /**
-     * @param ScraperResult[] $results
+     * @param Collection|ScraperResult[] $results
      */
     private function addResults($results)
     {

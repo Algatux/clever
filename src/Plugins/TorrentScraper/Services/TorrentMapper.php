@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 namespace Clever\Plugins\TorrentScraper\Services;
-use Clever\Plugins\TorrentScraper\Models\Torrent;
+
+
+use Clever\Plugins\TorrentScraper\Entity\Torrent;
 use Clever\Plugins\TorrentScraper\ValueObject\ScraperResult;
 
 /**
@@ -18,9 +20,8 @@ class TorrentMapper
     public function fromScraperResultToTorrentModel(ScraperResult $scraperResult): Torrent
     {
         $torrent = new Torrent();
-        $torrent->name = $scraperResult->getName();
-        $torrent->hash = sha1($scraperResult->getName());
-        $torrent->magnetLink = $scraperResult->getMagnet();
+        $torrent->setName($scraperResult->getName());
+        $torrent->setMagnetLink($scraperResult->getMagnet());
 
         return $torrent;
     }

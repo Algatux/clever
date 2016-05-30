@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 namespace Clever\Plugins\TorrentScraper\Services;
-use Clever\Plugins\TorrentScraper\Models\Torrent;
-use Illuminate\Database\QueryException;
+
+use Clever\Plugins\TorrentScraper\Entity\Torrent;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class TorrentPersister
@@ -10,31 +11,40 @@ use Illuminate\Database\QueryException;
  */
 class TorrentPersister
 {
+    /** @var EntityManagerInterface */
+    private $entityManager;
 
     /**
      * TorrentPersister constructor.
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct()
-    {}
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * @param Torrent $torrent
      * @return bool
+     * @throws \Exception
      */
-    public function insertModel(Torrent $torrent): bool
+    public function persistNewtorrent(Torrent $torrent): bool
     {
+        $existantTorrent = $this->entityManager->getRepository(Torrent::class)->findOneBy([
+            "magnetLink" => $torrent->getMagnetLink()
+        ]);
 
-        try {
-            $torrent->save();
-
-            return true;
-        }catch (QueryException $e) {
-            if (! preg_match('/UNIQUE constraint/', $e->getMessage())) {
-                throw $e;
-            }
+        if (null !== $existantTorrent) {
+            return false;
         }
 
-        return false;
+        try {
+            $this->entityManager->persist($torrent);
+            $this->entityManager->flush($torrent);
+            return true;
+        }catch (\Exception $e) {
+            throw $e;
+        }
     }
     
 }

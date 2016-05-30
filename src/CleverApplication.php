@@ -5,8 +5,11 @@ namespace Clever;
 use Clever\Config\ServiceProviders;
 use Clever\Exceptions\Services\UnexpectedClassFound;
 use Clever\Providers\CleverServiceProvider;
+use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
+
+define('CLEVER_ROOT_DIR', __DIR__ . "/..");
 
 /**
  * Class CleverApplication
@@ -51,15 +54,13 @@ class CleverApplication extends Container {
     }
 
     /**
-     * @return CleverApplication
+     * @return EntityManagerInterface
      */
-    public function withEloquent(): CleverApplication
+    public function getEntityManager()
     {
-        $this->make('capsule')->bootEloquent();
-
-        return $this;
+        return $this->make(EntityManagerInterface::class);
     }
-
+    
     /**
      * @return void
      */

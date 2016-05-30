@@ -4,11 +4,22 @@ return [
 
     "database" => [
 
-        "driver" => "sqlite",
+        "driver" => "pdo_sqlite",
 
-        "database" => __DIR__ . "/../database.sqlite",
+        "path" => __DIR__ . "/../database.sqlite",
 
-        "migrations-dir" => "/Migrations",
+        'user'     => null,
+
+        'password' => null,
+
+    ],
+
+    "paths" => [
+
+        "entities" => [
+            __DIR__ . "/Entity",
+            __DIR__ . "/Plugins/TorrentScraper/Entity",
+        ]
 
     ],
     
