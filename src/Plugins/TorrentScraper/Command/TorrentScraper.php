@@ -6,6 +6,7 @@ use Clever\Plugins\TorrentScraper\Config\Config;
 use Clever\Plugins\TorrentScraper\Entity\Torrent;
 use Clever\Plugins\TorrentScraper\Scraper;
 use Clever\Plugins\TorrentScraper\Services\TorrentPersister;
+use Clever\Plugins\TorrentScraper\Services\TorrentRiddler;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Illuminate\Contracts\Container\Container;
 use Symfony\Component\Console\Command\Command;

@@ -68,7 +68,7 @@ class Torrent
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): integer
     {
         return $this->id;
     }
@@ -76,7 +76,7 @@ class Torrent
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    public function setId(integer $id)
     {
         $this->id = $id;
     }
@@ -84,7 +84,7 @@ class Torrent
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -92,7 +92,7 @@ class Torrent
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -100,7 +100,7 @@ class Torrent
     /**
      * @return string
      */
-    public function getMagnetLink()
+    public function getMagnetLink(): string
     {
         return $this->magnetLink;
     }
@@ -108,7 +108,7 @@ class Torrent
     /**
      * @param string $magnetLink
      */
-    public function setMagnetLink($magnetLink)
+    public function setMagnetLink(string $magnetLink)
     {
         $this->magnetLink = $magnetLink;
     }
@@ -116,7 +116,7 @@ class Torrent
     /**
      * @return int
      */
-    public function getSeeders()
+    public function getSeeders(): integer
     {
         return $this->seeders;
     }
@@ -124,7 +124,7 @@ class Torrent
     /**
      * @param int $seeders
      */
-    public function setSeeders($seeders)
+    public function setSeeders(integer $seeders)
     {
         $this->seeders = $seeders;
     }
@@ -132,7 +132,7 @@ class Torrent
     /**
      * @return int
      */
-    public function getLeechers()
+    public function getLeechers(): integer
     {
         return $this->leechers;
     }
@@ -140,7 +140,7 @@ class Torrent
     /**
      * @param int $leechers
      */
-    public function setLeechers($leechers)
+    public function setLeechers(integer $leechers)
     {
         $this->leechers = $leechers;
     }
@@ -148,7 +148,7 @@ class Torrent
     /**
      * @return mixed
      */
-    public function getTags()
+    public function getTags(): ArrayCollection
     {
         return $this->tags;
     }
@@ -156,7 +156,7 @@ class Torrent
     /**
      * @param mixed $tags
      */
-    public function setTags($tags)
+    public function setTags(ArrayCollection $tags)
     {
         $this->tags = $tags;
     }

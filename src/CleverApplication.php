@@ -7,7 +7,6 @@ use Clever\Exceptions\Services\UnexpectedClassFound;
 use Clever\Providers\CleverServiceProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Container\Container;
-use Illuminate\Support\ServiceProvider;
 
 define('CLEVER_ROOT_DIR', __DIR__ . "/..");
 
@@ -27,7 +26,7 @@ class CleverApplication extends Container {
     {
         self::setInstance($this);
         $this->instance('app', $this);
-        $this->instance('Illuminate\Container\Container', $this);
+        $this->instance(Container::class, $this);
 
         $this->registerServiceProviders();
     }

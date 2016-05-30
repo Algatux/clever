@@ -6,8 +6,6 @@ use Clever\CleverApplication;
 use Clever\Config\ApplicationConfiguration;
 use Clever\Services\Doctrine\EntityManagerFactory;
 use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Console\Application as Console;
 
 /**

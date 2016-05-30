@@ -14,6 +14,20 @@ class TorrentMapper
 {
 
     /**
+     * @var TorrentTagsDecorator
+     */
+    private $tagsDecorator;
+
+    /**
+     * TorrentMapper constructor.
+     * @param TorrentTagsDecorator $tagsDecorator
+     */
+    public function __construct(TorrentTagsDecorator $tagsDecorator)
+    {
+        $this->tagsDecorator = $tagsDecorator;
+    }
+
+    /**
      * @param ScraperResult $scraperResult
      * @return Torrent
      */
@@ -22,6 +36,8 @@ class TorrentMapper
         $torrent = new Torrent();
         $torrent->setName($scraperResult->getName());
         $torrent->setMagnetLink($scraperResult->getMagnet());
+
+        $torrent = $this->tagsDecorator->decorateTorrentWithTags($torrent);
 
         return $torrent;
     }
