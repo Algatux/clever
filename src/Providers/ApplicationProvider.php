@@ -30,14 +30,14 @@ class ApplicationProvider extends CleverServiceProvider
         // Filesystem services
 
         // Database Services
-        $this->app->bind(EntityManagerFactory::class, function(){
+        $this->app->singleton(EntityManagerFactory::class, function(){
             /** @var ApplicationConfiguration $databaseConfig */
             $databaseConfig = $this->app->make(ApplicationConfiguration::class);
 
             return new EntityManagerFactory($databaseConfig);
         });
 
-        $this->app->bind(EntityManagerInterface::class, function() {
+        $this->app->singleton(EntityManagerInterface::class, function() {
             /** @var EntityManagerFactory $factory */
             $factory = $this->app->make(EntityManagerFactory::class);
 

@@ -25,7 +25,6 @@ class CleverApplication extends Container {
     public function __construct()
     {
         self::setInstance($this);
-        $this->instance('app', $this);
         $this->instance(Container::class, $this);
 
         $this->registerServiceProviders();

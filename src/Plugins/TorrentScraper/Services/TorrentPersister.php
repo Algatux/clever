@@ -30,7 +30,6 @@ class TorrentPersister
      */
     public function persistNewtorrent(Torrent $torrent): bool
     {
-        
         $existantTorrent = $this->entityManager->getRepository(Torrent::class)->findOneBy([
             "magnetLink" => $torrent->getMagnetLink()
         ]);

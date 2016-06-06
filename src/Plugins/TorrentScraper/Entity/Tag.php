@@ -2,6 +2,7 @@
 
 namespace Clever\Plugins\TorrentScraper\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,11 +30,18 @@ class Tag
      */
     private $name;
 
+    /** 
+     * @var Torrent[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Torrent", inversedBy="tags")
+     */
+    private $torrents;
+
     /**
      * Torrent constructor.
      */
     public function __construct()
     {
+        $this->torrents = new ArrayCollection();
     }
 
     /**
@@ -66,6 +74,22 @@ class Tag
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return Torrent[]|ArrayCollection
+     */
+    public function getTorrents()
+    {
+        return $this->torrents;
+    }
+
+    /**
+     * @param Torrent[]|ArrayCollection $torrents
+     */
+    public function setTorrents($torrents)
+    {
+        $this->torrents = $torrents;
     }
 
 }

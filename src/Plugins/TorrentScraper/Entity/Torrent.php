@@ -50,10 +50,7 @@ class Torrent
 
     /**
      * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"}, orphanRemoval=true)
-     * @ORM\JoinTable(name="torrents_tags",
-     *      joinColumns={@ORM\JoinColumn(name="torrent_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@Orm\JoinColumn(name="tag_id", referencedColumnName="id")}
-     *      )
+     * @ORM\JoinTable(name="torrentscaper_torrents_tags")
      */
     private $tags;
 
