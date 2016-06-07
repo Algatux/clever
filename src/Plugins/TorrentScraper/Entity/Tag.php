@@ -30,12 +30,6 @@ class Tag
      */
     private $name;
 
-    /** 
-     * @var Torrent[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Torrent", inversedBy="tags")
-     */
-    private $torrents;
-
     /**
      * Torrent constructor.
      */
@@ -87,9 +81,19 @@ class Tag
     /**
      * @param Torrent[]|ArrayCollection $torrents
      */
-    public function setTorrents($torrents)
+    public function setTorrents(ArrayCollection $torrents)
     {
         $this->torrents = $torrents;
+    }
+
+    /**
+     * @param Torrent $torrent
+     */
+    public function addTorrent(Torrent $torrent)
+    {
+        if (!$this->torrents->contains($torrent)) {
+            $this->torrents->add($torrent);
+        }
     }
 
 }

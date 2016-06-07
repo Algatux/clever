@@ -49,7 +49,7 @@ class Torrent
     private $leechers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="torrents", cascade={"persist"}, orphanRemoval=true)
      * @ORM\JoinTable(name="torrentscaper_torrents_tags")
      */
     private $tags;

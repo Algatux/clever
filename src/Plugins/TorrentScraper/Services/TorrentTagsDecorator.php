@@ -52,22 +52,21 @@ class TorrentTagsDecorator
         $repo = $this->entityManager->getRepository(Tag::class);
 
         $tags = $this->riddler->findMatchingTags($torrent);
-        $tags = array_map(function (string $definition) use ($repo) {
 
+        foreach ($tags as $tagDefinition) {
+            /** @var Tag $tagFound */
             $tagFound = $repo->findOneBy([
-                "name" => $definition
+                "name" => $tagDefinition
             ]);
 
-            if (null !== $tagFound) {
-                return $tagFound;
+            if (!$tagFound instanceof Tag) {
+                $tagFound = $this->tagMapper
+                    ->fromTagDefinitionToTag($tagDefinition);
             }
 
-            return $this->tagMapper->fromTagDefinitionToTag($definition);
-
-        }, $tags);
-
-        $tags = new ArrayCollection($tags);
-        $torrent->setTags($tags);
+            //$tagFound->addTorrent($torrent);
+            $torrent->addTag($tagFound);
+        }
 
         return $torrent;
     }
