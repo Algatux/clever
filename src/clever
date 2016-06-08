@@ -3,10 +3,10 @@
 
 namespace Clever;
 
-if ( ! file_exists(__DIR__.'/vendor/autoload.php'))
+if ( ! file_exists(__DIR__.'/../vendor/autoload.php'))
     throw new \Exception("Autoload file not found.");
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 (new CleverApplication())
     ->run();

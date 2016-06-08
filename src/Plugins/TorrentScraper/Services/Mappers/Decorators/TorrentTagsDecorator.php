@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * Class TorrentTagsDecorator
  */
-class TorrentTagsDecorator
+final class TorrentTagsDecorator
 {
     /**
      * @var TorrentRiddler

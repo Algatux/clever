@@ -28,7 +28,9 @@
             "email": "a.galli85@gmail.com"
         }
     ],
-    "bin": ["src/bin/clever"],
+    "bin": [
+        "src/clever"
+    ],
     "config": {
         "preferred-install": "dist",
         "bin-dir": "bin"

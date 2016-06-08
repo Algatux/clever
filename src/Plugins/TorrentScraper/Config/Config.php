@@ -1,24 +1,26 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace Clever\Plugins\TorrentScraper\Config;
 
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Class Config
- * @package Clever\Plugins\TorrentScraper\Config
  */
-class Config
+final class Config
 {
 
-    /** @var string  */
+    /** @var string */
     private $query;
 
-    /** @var string  */
+    /** @var string */
     private $driver;
 
     /**
      * Config constructor.
+     *
      * @param InputInterface $inputInterface
      */
     public function __construct(InputInterface $inputInterface)

@@ -1,14 +1,15 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace Clever\Config;
 
 use Illuminate\Support\Fluent;
 
 /**
  * Class ApplicationConfiguration
- * @package Clever\Config
  */
-class ApplicationConfiguration
+final class ApplicationConfiguration
 {
 
     /** @var Fluent */
@@ -19,7 +20,7 @@ class ApplicationConfiguration
      */
     public function __construct()
     {
-        $this->config = new Fluent(include __DIR__ . "/../config.php");
+        $this->config = new Fluent(include __DIR__."/../config.php");
     }
 
     /**
@@ -29,5 +30,5 @@ class ApplicationConfiguration
     {
         return $this->config;
     }
-    
+
 }

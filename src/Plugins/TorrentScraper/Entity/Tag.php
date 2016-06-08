@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Clever\Plugins\TorrentScraper\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -7,14 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Tag
- * @package Clever\Plugins\TorrentScraper\Entity
  *
  * @ORM\Entity()
  * @ORM\Table(name="torrentscraper_torrent_tag", uniqueConstraints={
  *   @ORM\UniqueConstraint(name="torrentscraper_tag_name", columns={"name"}),
  * })
  */
-class Tag
+final class Tag
 {
 
     /**
@@ -68,32 +69,6 @@ class Tag
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return Torrent[]|ArrayCollection
-     */
-    public function getTorrents()
-    {
-        return $this->torrents;
-    }
-
-    /**
-     * @param Torrent[]|ArrayCollection $torrents
-     */
-    public function setTorrents(ArrayCollection $torrents)
-    {
-        $this->torrents = $torrents;
-    }
-
-    /**
-     * @param Torrent $torrent
-     */
-    public function addTorrent(Torrent $torrent)
-    {
-        if (!$this->torrents->contains($torrent)) {
-            $this->torrents->add($torrent);
-        }
     }
 
 }

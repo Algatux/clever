@@ -1,13 +1,13 @@
 <?php
+
 declare(strict_types = 1);
+
 namespace Clever\Plugins\TorrentScraper\Command;
 
 use Clever\Plugins\TorrentScraper\Config\Config;
 use Clever\Plugins\TorrentScraper\Entity\Torrent;
 use Clever\Plugins\TorrentScraper\Scraper;
 use Clever\Plugins\TorrentScraper\Services\TorrentPersister;
-use Clever\Plugins\TorrentScraper\Services\TorrentRiddler;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Illuminate\Contracts\Container\Container;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,9 +17,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class TorrentScraper
- * @package Clever\Plugins\TorrentScraper\Command
  */
-class TorrentScraper extends Command
+final class TorrentScraper extends Command
 {
     /**
      * @var Container
@@ -28,6 +27,7 @@ class TorrentScraper extends Command
 
     /**
      * Clever constructor.
+     *
      * @param Container $container
      */
     public function __construct(Container $container)
@@ -54,13 +54,13 @@ class TorrentScraper extends Command
                 'd',
                 InputOption::VALUE_REQUIRED,
                 'Use specific driver'
-            )
-        ;
+            );
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
+     *
      * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -83,11 +83,11 @@ class TorrentScraper extends Command
 
         /** @var Torrent $result */
         foreach ($results as $result) {
-            try{
+            try {
                 $insertResult = $persister->persistNewtorrent($result);
-                $newTorrents += $insertResult ? 1: 0;
-                $skippedTorrents += !$insertResult ? 1: 0;
-            }catch (\Exception $e){
+                $newTorrents += $insertResult ? 1 : 0;
+                $skippedTorrents += !$insertResult ? 1 : 0;
+            } catch (\Exception $e) {
                 $output->writeln($e->getMessage());
             }
         }

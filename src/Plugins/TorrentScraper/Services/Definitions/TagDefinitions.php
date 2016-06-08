@@ -7,7 +7,7 @@ namespace Clever\Plugins\TorrentScraper\Services\Definitions;
 /**
  * Class TagDefinitions
  */
-class TagDefinitions
+final class TagDefinitions
 {
 
     /**

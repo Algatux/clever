@@ -1,10 +1,11 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace Clever\Plugins\TorrentScraper\ValueObject;
 
 /**
  * Class ScraperResult
- * @package Clever\Plugins\TorrentScraper\ValueObject
  */
 class ScraperResult
 {
@@ -18,6 +19,7 @@ class ScraperResult
 
     /**
      * ScraperResult constructor.
+     *
      * @param string $name
      * @param string $magnet
      */

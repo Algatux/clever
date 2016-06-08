@@ -1,5 +1,7 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace Clever\Plugins\TorrentScraper\Contracts;
 
 use Clever\Plugins\TorrentScraper\Config\Config;
@@ -8,11 +10,9 @@ use Illuminate\Support\Collection;
 
 /**
  * Interface ScraperDriver
- * @package Clever\Plugins\TorrentScraper\Contracts
  */
 interface ScraperDriver
 {
-
     /**
      * @return string
      */
@@ -25,10 +25,11 @@ interface ScraperDriver
 
     /**
      * @param Config $config
+     *
      * @return Collection|ScraperResult[]
      */
     public function scrape(Config $config): Collection;
-    
+
     /**
      * @return string
      */
@@ -58,5 +59,4 @@ interface ScraperDriver
      * @return string
      */
     public function getResultTorrentMagnetSelector(): string;
-
 }

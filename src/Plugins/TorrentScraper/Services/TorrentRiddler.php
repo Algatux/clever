@@ -1,10 +1,16 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace Clever\Plugins\TorrentScraper\Services;
 
 use Clever\Plugins\TorrentScraper\Entity\Torrent;
+use Clever\Plugins\TorrentScraper\Services\Definitions\TagDefinitions;
 
-class TorrentRiddler
+/**
+ * Class TorrentRiddler
+ */
+final class TorrentRiddler
 {
 
     /**
@@ -14,6 +20,7 @@ class TorrentRiddler
 
     /**
      * TorrentRiddler constructor.
+     *
      * @param TagDefinitions $tagDefinitions
      */
     public function __construct(TagDefinitions $tagDefinitions)
@@ -23,6 +30,7 @@ class TorrentRiddler
 
     /**
      * @param Torrent $torrent
+     *
      * @return array
      */
     public function findMatchingTags(Torrent $torrent)

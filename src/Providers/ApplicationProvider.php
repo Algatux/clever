@@ -1,5 +1,7 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace Clever\Providers;
 
 use Clever\CleverApplication;
@@ -10,9 +12,8 @@ use Symfony\Component\Console\Application as Console;
 
 /**
  * Class ApplicationProvider
- * @package Clever\ServiceProviders
  */
-class ApplicationProvider extends CleverServiceProvider
+final class ApplicationProvider extends CleverServiceProvider
 {
 
     /**
@@ -22,27 +23,34 @@ class ApplicationProvider extends CleverServiceProvider
      */
     public function register()
     {
-
-        $this->app->singleton('clever.app', function() {
-            return new Console(CleverApplication::NAME,CleverApplication::VERSION);
-        });
-
-        // Filesystem services
+        // Application service
+        $this->app->singleton(
+            'clever.app',
+            function () {
+                return new Console(CleverApplication::NAME, CleverApplication::VERSION);
+            }
+        );
 
         // Database Services
-        $this->app->singleton(EntityManagerFactory::class, function(){
-            /** @var ApplicationConfiguration $databaseConfig */
-            $databaseConfig = $this->app->make(ApplicationConfiguration::class);
+        $this->app->singleton(
+            EntityManagerFactory::class,
+            function () {
+                /** @var ApplicationConfiguration $databaseConfig */
+                $databaseConfig = $this->app->make(ApplicationConfiguration::class);
 
-            return new EntityManagerFactory($databaseConfig);
-        });
+                return new EntityManagerFactory($databaseConfig);
+            }
+        );
 
-        $this->app->singleton(EntityManagerInterface::class, function() {
-            /** @var EntityManagerFactory $factory */
-            $factory = $this->app->make(EntityManagerFactory::class);
+        $this->app->singleton(
+            EntityManagerInterface::class,
+            function () {
+                /** @var EntityManagerFactory $factory */
+                $factory = $this->app->make(EntityManagerFactory::class);
 
-            return $factory->createEntityManager();
-        });
+                return $factory->createEntityManager();
+            }
+        );
     }
 
     /**
@@ -51,6 +59,7 @@ class ApplicationProvider extends CleverServiceProvider
      * @return void
      */
     public function registerConsoleCommands()
-    {}
+    {
+    }
 
 }

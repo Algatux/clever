@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Clever;
 
 use Clever\Config\ServiceProviders;
@@ -14,7 +16,8 @@ define('CLEVER_ROOT_DIR', __DIR__ . "/..");
  * Class CleverApplication
  * @package Clever
  */
-class CleverApplication extends Container {
+final class CleverApplication extends Container
+{
 
     const VERSION = '0.1';
     const NAME = 'Clever';
@@ -54,7 +57,7 @@ class CleverApplication extends Container {
     /**
      * @return EntityManagerInterface
      */
-    public function getEntityManager()
+    public function getEntityManager(): EntityManagerInterface
     {
         return $this->make(EntityManagerInterface::class);
     }

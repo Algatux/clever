@@ -1,10 +1,11 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace Clever\Plugins\TorrentScraper\Drivers;
 
 use Clever\Plugins\TorrentScraper\Config\Config;
 use Clever\Plugins\TorrentScraper\Contracts\ScraperDriver;
-use Clever\Plugins\TorrentScraper\Services\ResultBuilder;
 use Clever\Plugins\TorrentScraper\ValueObject\ScraperResult;
 use Goutte\Client as Goutte;
 use Illuminate\Support\Collection;
@@ -12,13 +13,10 @@ use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class AbstractStandardDriver
- * @package Clever\Plugins\TorrentScraper\Drivers
  */
 abstract class AbstractStandardDriver implements ScraperDriver
 {
-
     const NAME = '';
-
     const PROTOCOL = '';
     const BASE_URL = '';
     const SEARCH_QUERY_URL = '%s';
@@ -28,6 +26,7 @@ abstract class AbstractStandardDriver implements ScraperDriver
 
     /**
      * AbstractStandardDriver constructor.
+     *
      * @param Goutte $client
      */
     public function __construct(Goutte $client)
@@ -37,6 +36,7 @@ abstract class AbstractStandardDriver implements ScraperDriver
 
     /**
      * @param Config $config
+     *
      * @return Collection
      */
     public function scrape(Config $config): Collection
@@ -46,26 +46,29 @@ abstract class AbstractStandardDriver implements ScraperDriver
         $searchResult = $this->startSearch($homePage, $config->getQuery());
 
         $rawResults = $this->getRawResults($searchResult);
-        
-        $results = $rawResults->each(function(Crawler $node){
-            $nameCrawler = $node->filterXPath($this->getResultTorrentNameSelector());
-            $magnet = $node->filterXPath($this->getResultTorrentMagnetSelector());
-            
-            return new ScraperResult($nameCrawler->text(), $magnet->attr('href'));
-        });
+
+        $results = $rawResults->each(
+            function (Crawler $node) {
+                $nameCrawler = $node->filterXPath($this->getResultTorrentNameSelector());
+                $magnet = $node->filterXPath($this->getResultTorrentMagnetSelector());
+
+                return new ScraperResult($nameCrawler->text(), $magnet->attr('href'));
+            }
+        );
 
         return new Collection($results);
     }
 
     /**
      * @param Crawler $crawler
-     * @param string $query
+     * @param string  $query
+     *
      * @return Crawler
      */
     private function startSearch(Crawler $crawler, string $query): Crawler
     {
         if ($this->hasFastSearchQueryUrl()) {
-            $url = $this->getBaseUrl() . sprintf($this::SEARCH_QUERY_URL, urlencode($query));
+            $url = $this->getBaseUrl().sprintf($this::SEARCH_QUERY_URL, urlencode($query));
 
             return $this->goutte->request('GET', $url);
         }
@@ -78,6 +81,7 @@ abstract class AbstractStandardDriver implements ScraperDriver
 
     /**
      * @param Crawler $crawler
+     *
      * @return Crawler
      */
     private function getRawResults(Crawler $crawler): Crawler
@@ -86,5 +90,4 @@ abstract class AbstractStandardDriver implements ScraperDriver
 
         return $crawler->filterXPath($selector);
     }
-
 }

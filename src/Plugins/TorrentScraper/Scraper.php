@@ -1,18 +1,19 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace Clever\Plugins\TorrentScraper;
 
 use Clever\Plugins\TorrentScraper\Config\Config;
 use Clever\Plugins\TorrentScraper\Contracts\ScraperDriver;
-use Clever\Plugins\TorrentScraper\Services\TorrentMapper;
+use Clever\Plugins\TorrentScraper\Services\Mappers\TorrentMapper;
 use Clever\Plugins\TorrentScraper\ValueObject\ScraperResult;
 use Illuminate\Support\Collection;
 
 /**
  * Class Scraper
- * @package Clever\Plugins\TorrentScraper
  */
-class Scraper
+final class Scraper
 {
 
     /** @var Collection|ScraperDriver */
@@ -21,12 +22,13 @@ class Scraper
     /** @var Collection */
     private $resultSet;
     /**
-     * @var TorrentMapper
+     * @var \Clever\Plugins\TorrentScraper\Services\Mappers\TorrentMapper
      */
     private $mapper;
 
     /**
      * Scraper constructor.
+     *
      * @param TorrentMapper $mapper
      */
     public function __construct(TorrentMapper $mapper)
@@ -42,16 +44,17 @@ class Scraper
     public function addDriver(ScraperDriver $adapter)
     {
         $hash = spl_object_hash($adapter);
-        if (! $this->adapters->contains($hash)) {
+        if (!$this->adapters->contains($hash)) {
             $this->adapters->put($hash, $adapter);
         }
     }
 
     /**
      * @param Config $config
+     *
      * @return Collection
      */
-    public function scrape(Config $config)
+    public function scrape(Config $config): Collection
     {
         /** @var ScraperDriver $adapter */
         foreach ($this->adapters as $adapter) {
@@ -77,5 +80,5 @@ class Scraper
             $this->resultSet->push($torrent);
         }
     }
-    
+
 }

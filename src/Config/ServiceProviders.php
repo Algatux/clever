@@ -1,5 +1,7 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace Clever\Config;
 
 use Clever\Plugins\TorrentScraper\TorrentScraperServiceProvider;
@@ -8,12 +10,10 @@ use Clever\Providers\ConsoleProvider;
 
 /**
  * Class ServiceProviders
- * @package Clever\Config
  */
 class ServiceProviders
 {
-
-    /** @var array  */
+    /** @var array */
     private static $services = [
 
         // Clever Service Providers
@@ -29,7 +29,6 @@ class ServiceProviders
      */
     public static function getRegisteredServices(): array
     {
-        return self::$services;
+        return static::$services;
     }
-
 }

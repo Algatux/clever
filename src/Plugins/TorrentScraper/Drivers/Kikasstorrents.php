@@ -1,18 +1,17 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace Clever\Plugins\TorrentScraper\Drivers;
 
 use Clever\Plugins\TorrentScraper\Contracts\ScraperDriver;
 
 /**
  * Class Kikasstorrents
- * @package Clever\Plugins\TorrentScraper\Drivers
  */
-class Kikasstorrents extends AbstractStandardDriver implements ScraperDriver
+final class Kikasstorrents extends AbstractStandardDriver implements ScraperDriver
 {
-
     const NAME = 'kikass';
-
     const PROTOCOL = 'http://';
     const BASE_URL = 'kickasstorrentsam.com/';
     const SEARCH_QUERY_URL = '/usearch/%s';
@@ -30,7 +29,7 @@ class Kikasstorrents extends AbstractStandardDriver implements ScraperDriver
      */
     public function getBaseUrl(): string
     {
-        return self::PROTOCOL . self::BASE_URL;
+        return self::PROTOCOL.self::BASE_URL;
     }
 
     /**

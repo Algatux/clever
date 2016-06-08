@@ -6,7 +6,7 @@ namespace Clever\Plugins\TorrentScraper;
 
 use Clever\Plugins\TorrentScraper\Command\TorrentScraper;
 use Clever\Plugins\TorrentScraper\Drivers\Kikasstorrents;
-use Clever\Plugins\TorrentScraper\Services\TorrentMapper;
+use Clever\Plugins\TorrentScraper\Services\Mappers\TorrentMapper;
 use Clever\Providers\CleverServiceProvider;
 use Goutte\Client as Goutte;
 use Symfony\Component\Console\Application;

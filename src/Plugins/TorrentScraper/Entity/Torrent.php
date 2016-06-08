@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Clever\Plugins\TorrentScraper\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -7,14 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Torrent
- * @package Clever\Plugins\TorrentScraper\Entity
  *
  * @ORM\Entity()
  * @ORM\Table(name="torrentscraper_torrent", uniqueConstraints={
  *   @ORM\UniqueConstraint(name="torrentscraper_torrent_magnet_link", columns={"magnet_link"}),
  * })
  */
-class Torrent
+final class Torrent
 {
 
     /**
@@ -49,7 +50,7 @@ class Torrent
     private $leechers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="torrents", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"}, orphanRemoval=true)
      * @ORM\JoinTable(name="torrentscaper_torrents_tags")
      */
     private $tags;
@@ -163,7 +164,7 @@ class Torrent
      */
     public function addTag(Tag $tag)
     {
-        if(! $this->tags->contains($tag)){
+        if (!$this->tags->contains($tag)) {
             $this->tags->add($tag);
         }
     }
