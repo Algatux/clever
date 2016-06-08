@@ -15,12 +15,15 @@ final class TagMapper
     /**
      * @param string $definition
      *
+     * @param string $family
+     *
      * @return Tag
      */
-    public function fromTagDefinitionToTag(string $definition): Tag
+    public function fromTagDefinitionToTag(string $definition, string $family): Tag
     {
         $tag = new Tag();
         $tag->setName(strtolower($definition));
+        $tag->setFamily(strtolower($family));
 
         return $tag;
     }

@@ -50,7 +50,7 @@ final class Torrent
     private $leechers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="torrents", cascade={"persist"}, orphanRemoval=true)
      * @ORM\JoinTable(name="torrentscaper_torrents_tags")
      */
     private $tags;
@@ -166,6 +166,7 @@ final class Torrent
     {
         if (!$this->tags->contains($tag)) {
             $this->tags->add($tag);
+            $tag->addTorrent($this);
         }
     }
 

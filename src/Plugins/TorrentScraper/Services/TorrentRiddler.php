@@ -43,7 +43,7 @@ final class TorrentRiddler
             foreach ($tags as $tag) {
 
                 if (preg_match("/$tag/i", $torrent->getName())) {
-                    $foundTags[] = $tag;
+                    $foundTags[$family] = $tag;
                 }
             }
 

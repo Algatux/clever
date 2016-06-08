@@ -7,6 +7,7 @@ namespace Clever\Plugins\TorrentScraper\Command;
 use Clever\Plugins\TorrentScraper\Config\Config;
 use Clever\Plugins\TorrentScraper\Entity\Torrent;
 use Clever\Plugins\TorrentScraper\Scraper;
+use Clever\Plugins\TorrentScraper\Services\Mappers\Decorators\TorrentTagsDecorator;
 use Clever\Plugins\TorrentScraper\Services\TorrentPersister;
 use Illuminate\Contracts\Container\Container;
 use Symfony\Component\Console\Command\Command;
@@ -80,10 +81,13 @@ final class TorrentScraper extends Command
 
         /** @var TorrentPersister $persister */
         $persister = $this->container->make(TorrentPersister::class);
+        /** @var TorrentTagsDecorator $decorator */
+        $decorator = $this->container->make(TorrentTagsDecorator::class);
 
         /** @var Torrent $result */
         foreach ($results as $result) {
             try {
+                $decorator->decorateTorrentWithTags($result);
                 $insertResult = $persister->persistNewtorrent($result);
                 $newTorrents += $insertResult ? 1 : 0;
                 $skippedTorrents += !$insertResult ? 1 : 0;

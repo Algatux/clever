@@ -46,33 +46,28 @@ final class TorrentTagsDecorator
     }
 
     /**
-     *
      * @param Torrent $torrent
-     *
-     * @return Torrent
      */
-    public function decorateTorrentWithTags(Torrent $torrent): Torrent
+    public function decorateTorrentWithTags(Torrent $torrent)
     {
         $repo = $this->entityManager->getRepository(Tag::class);
 
         $tags = $this->riddler->findMatchingTags($torrent);
 
-        foreach ($tags as $tagDefinition) {
+        foreach ($tags as $family => $tagDefinition) {
             /** @var Tag $tagFound */
             $tagFound = $repo->findOneBy(
                 [
                     "name" => $tagDefinition,
                 ]
             );
-
+            
             if (!$tagFound instanceof Tag) {
                 $tagFound = $this->tagMapper
-                    ->fromTagDefinitionToTag($tagDefinition);
+                    ->fromTagDefinitionToTag($tagDefinition, $family);
             }
 
             $torrent->addTag($tagFound);
         }
-
-        return $torrent;
     }
 }

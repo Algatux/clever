@@ -13,19 +13,12 @@ use Clever\Plugins\TorrentScraper\ValueObject\ScraperResult;
  */
 final class TorrentMapper
 {
-    /**
-     * @var \Clever\Plugins\TorrentScraper\Services\Mappers\Decorators\TorrentTagsDecorator
-     */
-    private $tagsDecorator;
 
     /**
      * TorrentMapper constructor.
-     *
-     * @param TorrentTagsDecorator $tagsDecorator
      */
-    public function __construct(TorrentTagsDecorator $tagsDecorator)
+    public function __construct()
     {
-        $this->tagsDecorator = $tagsDecorator;
     }
 
     /**
@@ -38,8 +31,6 @@ final class TorrentMapper
         $torrent = new Torrent();
         $torrent->setName($scraperResult->getName());
         $torrent->setMagnetLink($scraperResult->getMagnet());
-
-        $torrent = $this->tagsDecorator->decorateTorrentWithTags($torrent);
 
         return $torrent;
     }

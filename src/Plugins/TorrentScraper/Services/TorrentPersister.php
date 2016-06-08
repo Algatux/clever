@@ -43,14 +43,10 @@ final class TorrentPersister
             return false;
         }
 
-        try {
-            $this->entityManager->persist($torrent);
-            $this->entityManager->flush($torrent);
+        $this->entityManager->persist($torrent);
+        $this->entityManager->flush($torrent);
 
-            return true;
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        return true;
     }
 
 }
