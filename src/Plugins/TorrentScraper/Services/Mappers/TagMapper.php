@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace Clever\Plugins\TorrentScraper\Services;
+namespace Clever\Plugins\TorrentScraper\Services\Mappers;
 
 use Clever\Plugins\TorrentScraper\Entity\Tag;
 

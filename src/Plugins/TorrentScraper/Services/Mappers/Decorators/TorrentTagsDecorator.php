@@ -1,18 +1,20 @@
 <?php
-declare(strict_types=1);
-namespace Clever\Plugins\TorrentScraper\Services;
+
+declare(strict_types = 1);
+
+namespace Clever\Plugins\TorrentScraper\Services\Mappers\Decorators;
+
 use Clever\Plugins\TorrentScraper\Entity\Tag;
 use Clever\Plugins\TorrentScraper\Entity\Torrent;
-use Doctrine\Common\Collections\ArrayCollection;
+use Clever\Plugins\TorrentScraper\Services\Mappers\TagMapper;
+use Clever\Plugins\TorrentScraper\Services\TorrentRiddler;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class TorrentTagsDecorator
- * @package Clever\Plugins\TorrentScraper\Services
  */
 class TorrentTagsDecorator
 {
-
     /**
      * @var TorrentRiddler
      */
@@ -28,23 +30,25 @@ class TorrentTagsDecorator
 
     /**
      * TorrentTagsDecorator constructor.
-     * @param TorrentRiddler $riddler
-     * @param TagMapper $tagMapper
+     *
+     * @param TorrentRiddler         $riddler
+     * @param TagMapper              $tagMapper
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
         TorrentRiddler $riddler,
         TagMapper $tagMapper,
         EntityManagerInterface $entityManager
-    )
-    {
+    ) {
         $this->riddler = $riddler;
         $this->tagMapper = $tagMapper;
         $this->entityManager = $entityManager;
     }
 
-    /**ù
+    /**
+     *
      * @param Torrent $torrent
+     *
      * @return Torrent
      */
     public function decorateTorrentWithTags(Torrent $torrent): Torrent
@@ -55,20 +59,20 @@ class TorrentTagsDecorator
 
         foreach ($tags as $tagDefinition) {
             /** @var Tag $tagFound */
-            $tagFound = $repo->findOneBy([
-                "name" => $tagDefinition
-            ]);
+            $tagFound = $repo->findOneBy(
+                [
+                    "name" => $tagDefinition,
+                ]
+            );
 
             if (!$tagFound instanceof Tag) {
                 $tagFound = $this->tagMapper
                     ->fromTagDefinitionToTag($tagDefinition);
             }
 
-            //$tagFound->addTorrent($torrent);
             $torrent->addTag($tagFound);
         }
 
         return $torrent;
     }
-    
 }

@@ -1,10 +1,11 @@
 <?php
 
-namespace Clever\Plugins\TorrentScraper\Services;
+declare(strict_types = 1);
+
+namespace Clever\Plugins\TorrentScraper\Services\Definitions;
 
 /**
  * Class TagDefinitions
- * @package Clever\Plugins\TorrentScraper\Services
  */
 class TagDefinitions
 {
