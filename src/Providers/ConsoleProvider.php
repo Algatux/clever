@@ -9,13 +9,25 @@ namespace Clever\Providers;
  */
 final class ConsoleProvider extends CleverServiceProvider
 {
+
     /**
-     * Register the service provider.
+     * Register Parameters
      *
      * @return void
      */
-    public function register()
+    public function registerParameters()
     {
+        // TODO: Implement registerParameters() method.
+    }
+
+    /**
+     * Register Services
+     *
+     * @return void
+     */
+    public function registerServices()
+    {
+        // TODO: Implement registerServices() method.
     }
 
     /**
@@ -25,5 +37,6 @@ final class ConsoleProvider extends CleverServiceProvider
      */
     public function registerConsoleCommands()
     {
+        // TODO: Implement registerConsoleCommands() method.
     }
 }

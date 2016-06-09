@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Clever\Config;
 
-use Illuminate\Support\Fluent;
 
 /**
  * Class ApplicationConfiguration

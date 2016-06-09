@@ -49,7 +49,8 @@ final class CleverApplication extends Container
                 throw new UnexpectedClassFound(sprintf("Class %s it's not a CleverServiceProvider", get_class($provider)));
             }
             
-            $provider->register();
+            $provider->registerParameters();
+            $provider->registerServices();
             $provider->registerConsoleCommands();
         }
     }

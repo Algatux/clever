@@ -4,10 +4,39 @@ declare(strict_types = 1);
 
 namespace Clever\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Container\Container;
 
-abstract class CleverServiceProvider extends ServiceProvider
+/**
+ * Class CleverServiceProvider
+ */
+abstract class CleverServiceProvider
 {
+    /** @var Container */
+    protected $container;
+
+    /**
+     * CleverServiceProvider constructor.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * Register Parameters
+     *
+     * @return void
+     */
+    abstract public function registerParameters();
+
+    /**
+     * Register Services
+     *
+     * @return void
+     */
+    abstract public function registerServices();
 
     /**
      * Register the console commands
@@ -15,5 +44,4 @@ abstract class CleverServiceProvider extends ServiceProvider
      * @return void
      */
     abstract public function registerConsoleCommands();
-
 }

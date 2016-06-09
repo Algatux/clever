@@ -17,14 +17,25 @@ final class ApplicationProvider extends CleverServiceProvider
 {
 
     /**
-     * Register the service provider.
+     * Register Parameters
      *
      * @return void
      */
-    public function register()
+    public function registerParameters()
     {
+        $this->container->bind('clever.root_dir', CLEVER_ROOT_DIR);
+    }
+
+    /**
+     * Register Services
+     *
+     * @return void
+     */
+    public function registerServices()
+    {
+        
         // Application service
-        $this->app->singleton(
+        $this->container->singleton(
             'clever.app',
             function () {
                 return new Console(CleverApplication::NAME, CleverApplication::VERSION);
@@ -32,21 +43,21 @@ final class ApplicationProvider extends CleverServiceProvider
         );
 
         // Database Services
-        $this->app->singleton(
+        $this->container->singleton(
             EntityManagerFactory::class,
             function () {
                 /** @var ApplicationConfiguration $databaseConfig */
-                $databaseConfig = $this->app->make(ApplicationConfiguration::class);
+                $databaseConfig = $this->container->make(ApplicationConfiguration::class);
 
                 return new EntityManagerFactory($databaseConfig);
             }
         );
 
-        $this->app->singleton(
+        $this->container->singleton(
             EntityManagerInterface::class,
             function () {
                 /** @var EntityManagerFactory $factory */
-                $factory = $this->app->make(EntityManagerFactory::class);
+                $factory = $this->container->make(EntityManagerFactory::class);
 
                 return $factory->createEntityManager();
             }

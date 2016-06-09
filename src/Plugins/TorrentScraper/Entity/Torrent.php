@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity()
  * @ORM\Table(name="torrentscraper_torrent", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="torrentscraper_torrent_magnet_link", columns={"magnet_link"}),
+ *   @ORM\UniqueConstraint(name="torrentscraper_torrent_magnet_link", columns={"name"}),
  * })
  */
 final class Torrent

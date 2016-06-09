@@ -4,11 +4,13 @@ return [
 
     "database" => [
 
-        "driver" => "pdo_sqlite",
+        "driver" => "pdo_mysql",
 
         "path" => __DIR__ . "/../database.sqlite",
 
-        'user'     => null,
+        "dbname" => "clever",
+
+        'user'     => "root",
 
         'password' => null,
 

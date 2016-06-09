@@ -19,17 +19,27 @@ class TorrentScraperServiceProvider extends CleverServiceProvider
 {
 
     /**
+     * Register Parameters
+     *
+     * @return void
+     */
+    public function registerParameters()
+    {
+        // TODO: Implement registerParameters() method.
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
      */
-    public function register()
+    public function registerServices()
     {
-        $this->app->bind(Goutte::class, Goutte::class);
+        $this->container->bind(Goutte::class, Goutte::class);
 
-        $this->app->bind(Scraper::class, function(){
-            $scraper = new Scraper($this->app->make(TorrentMapper::class));
-            $scraper->addDriver(new Kikasstorrents($this->app->make(Goutte::class)));
+        $this->container->bind(Scraper::class, function(){
+            $scraper = new Scraper($this->container->make(TorrentMapper::class));
+            $scraper->addDriver(new Kikasstorrents($this->container->make(Goutte::class)));
 
             return $scraper;
         });
@@ -43,7 +53,7 @@ class TorrentScraperServiceProvider extends CleverServiceProvider
     public function registerConsoleCommands()
     {
         /** @var Application $clever */
-        $clever = $this->app->make('clever.app');
-        $clever->add(new TorrentScraper($this->app));
+        $clever = $this->container->make('clever.app');
+        $clever->add(new TorrentScraper($this->container));
     }
 }
