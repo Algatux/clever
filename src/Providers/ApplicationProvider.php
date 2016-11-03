@@ -11,13 +11,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Application as Console;
 
 /**
- * Class ApplicationProvider
+ * Class ApplicationProvider.
  */
 final class ApplicationProvider extends CleverServiceProvider
 {
-
     /**
-     * Register Parameters
+     * Register Parameters.
      *
      * @return void
      */
@@ -27,16 +26,16 @@ final class ApplicationProvider extends CleverServiceProvider
     }
 
     /**
-     * Register Services
+     * Register Services.
      *
      * @return void
      */
     public function registerServices()
     {
-        
+
         // Application service
         $this->container->singleton(
-            'clever.app',
+            CleverApplication::APP_SERVICE_NAME,
             function () {
                 return new Console(CleverApplication::NAME, CleverApplication::VERSION);
             }
@@ -65,12 +64,11 @@ final class ApplicationProvider extends CleverServiceProvider
     }
 
     /**
-     * Register the console commands
+     * Register the console commands.
      *
      * @return void
      */
     public function registerConsoleCommands()
     {
     }
-
 }

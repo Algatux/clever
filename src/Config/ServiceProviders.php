@@ -20,8 +20,7 @@ class ServiceProviders
         ApplicationProvider::class,
         ConsoleProvider::class,
 
-        // Project service providers
-        TorrentScraperServiceProvider::class,
+        // Plugins provider
     ];
 
     /**

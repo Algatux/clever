@@ -20,7 +20,6 @@ return [
 
         "entities" => [
             __DIR__ . "/Entity",
-            __DIR__ . "/Plugins/TorrentScraper/Entity",
         ]
 
     ],
