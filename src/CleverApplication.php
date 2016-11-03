@@ -54,16 +54,17 @@ final class CleverApplication extends Container
                 function (string $provider) {
 
                     if (!class_exists($provider, true)) {
-                        throw new ProviderClassNotFound(sprintf("Provder Class %s does not exist", $provider));
+                        throw new ProviderClassNotFound(sprintf("Provider Class %s does not exist", $provider));
                     }
 
-                    $providerInstance = new $provider($this);
-                    if (!$providerInstance instanceOf CleverServiceProvider) {
+                    if (!is_subclass_of($provider, CleverServiceProvider::class, true)) {
                         throw new UnexpectedClassFound(
                             sprintf("Class %s it is not a CleverServiceProvider", $provider)
                         );
                     }
 
+                    /** @var CleverServiceProvider $providerInstance */
+                    $providerInstance = new $provider($this);
                     $providerInstance->registerParameters();
                     $providerInstance->registerServices();
                     $providerInstance->registerConsoleCommands();

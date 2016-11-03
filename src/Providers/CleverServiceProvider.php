@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Clever\Providers;
 
+use Clever\CleverApplication;
 use Illuminate\Contracts\Container\Container;
 use Symfony\Component\Console\Application as Console;
 
@@ -30,7 +31,7 @@ abstract class CleverServiceProvider
      */
     protected function clever(): Console
     {
-        return $this->container->make('clever.console');
+        return $this->container->make(CleverApplication::APP_SERVICE_NAME);
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Clever\Config;
 
-use Clever\Plugins\TorrentScraper\TorrentScraperServiceProvider;
+use Clever\Plugins\JuniorWeb\JuniorWebProvider;
 use Clever\Providers\ApplicationProvider;
 use Clever\Providers\ConsoleProvider;
 
@@ -21,6 +21,7 @@ class ServiceProviders
         ConsoleProvider::class,
 
         // Plugins provider
+        JuniorWebProvider::class,
     ];
 
     /**
