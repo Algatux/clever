@@ -29,7 +29,7 @@ class JuniorWebProvider extends CleverServiceProvider
      */
     public function registerServices()
     {
-        $this->container->bind('juniorweb.badge_data_scraper', function(){
+        $this->container->bind(BadgeUsageDataScraper::class, function(){
             return new BadgeUsageDataScraper(
                 new Client(),
                 $this->container->make('juniorweb.address')

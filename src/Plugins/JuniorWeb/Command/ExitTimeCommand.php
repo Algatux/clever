@@ -37,7 +37,7 @@ class ExitTimeCommand extends CleverCommand
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->user = new User($input->getArgument('username'), $input->getArgument('password'));
-        $this->scraper = $this->getContainer()->make('juniorweb.badge_data_scraper');
+        $this->scraper = $this->getContainer()->make(BadgeUsageDataScraper::class);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
